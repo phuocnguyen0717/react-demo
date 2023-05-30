@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -46,22 +47,24 @@ export default function Header() {
           </div>
           <ul className="header-menu nav">
             <li className="nav-item">
-              <a href="javascript:void(0);" className="nav-link">
-                <i className="nav-link-icon fa fa-database"> </i>
-                Statistics
-              </a>
+              <Link to="/" className="nav-link">
+                XYZ
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/homePrice" className="nav-link">
+                QLSV
+              </Link>
             </li>
             <li className="btn-group nav-item">
-              <a href="javascript:void(0);" className="nav-link">
-                <i className="nav-link-icon fa fa-edit" />
-                Projects
-              </a>
+              <Link to="/todos" className="nav-link">
+                Todo
+              </Link>
             </li>
             <li className="dropdown nav-item">
-              <a href="javascript:void(0);" className="nav-link">
-                <i className="nav-link-icon fa fa-cog" />
-                Settings
-              </a>
+              <Link to="/food" className="nav-link">
+                Food
+              </Link>
             </li>
           </ul>{" "}
         </div>

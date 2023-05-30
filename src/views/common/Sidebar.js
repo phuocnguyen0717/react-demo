@@ -1,7 +1,14 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
+  // const [selectButton, setSelectButton] = useState("");
+  // const [flag, setFlag] = useState(false);
+  // useEffect(() => {
+  //   console.log("abc");
+  // }, [selectButton]);
+  // const handlSelectButton = () => {
+  //   setSelectButton;
+  // };
   return (
     <div className="app-sidebar sidebar-shadow">
       <div className="app-header__logo">
@@ -39,14 +46,14 @@ export default function Sidebar() {
           <ul className="vertical-nav-menu">
             <li className="app-sidebar__heading">Dashboards</li>
             <li>
-              <a href="index.html" className="mm-active">
+              <Link to="/" className="mm-active">
                 <i className="metismenu-icon pe-7s-rocket" />
                 Dashboard Example 1
-              </a>
+              </Link>
             </li>
             <li className="app-sidebar__heading">UI Components</li>
             <li>
-              <Link to="/">
+              <Link to="#">
                 <i className="metismenu-icon pe-7s-diamond" />
                 Elements
                 <i className="metismenu-state-icon pe-7s-angle-down caret-left" />
@@ -63,7 +70,6 @@ export default function Sidebar() {
                     <i className="metismenu-icon"></i>Icons
                   </Link>
                 </li>
-                <Outlet />
               </ul>
             </li>
           </ul>
