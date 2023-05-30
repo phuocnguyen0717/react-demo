@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Actions from "../views/todos/Actions";
 import Content from "../views/todos/Content";
 import Header from "../views/common/Header";
+import { callApisTodos } from "../apis";
 export default function AppTodos() {
+  const [todos, setTodos] = useState([]);
+  const [isApiCalled, setIsApiCalled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSetTodos = (_data) => {
-    axios.post("https://64722f466a9370d5a41b2130.mockapi.io/todos", _data).then((res) => {
-      console.log("post --------> ", res.data);
-    });
+    callApisTodos.post("/todos", _data).then((res) => {});
+    getAllTodos();
   };
 
+  useEffect(() => {
+    if (!todos?.[0] && !isApiCalled) {
+      getAllTodos();
+    }
+  }, [todos]);
+  const getAllTodos = () => {
+    setIsLoading(true);
+    callApisTodos
+      .get("/todos")
+      .then((res) => {
+        setTodos(res?.data);
+        setIsApiCalled(true);
+        return res?.data;
+      })
+      .catch((err) => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   return (
     <>
       <Header />
@@ -20,7 +43,7 @@ export default function AppTodos() {
             <div className="card card-white">
               <div className="card-body">
                 <Actions handleSetTodos={handleSetTodos} />
-                <Content />
+                <Content todos={todos} isLoading={isLoading} />
               </div>
             </div>
           </div>

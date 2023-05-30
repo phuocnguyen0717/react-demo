@@ -1,7 +1,6 @@
-import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "../views/elements/Dashboard";
 import Buttons from "../views/elements/Buttons";
 import Icons from "../views/elements/Icons";
@@ -10,19 +9,37 @@ import DataTable from "../views/qlsv/DataTable";
 import FormDemo from "../views/qlsv/FormDemo";
 import AppTodos from "./AppTodos";
 import AppFoods from "./AppFoods";
+import { callApis } from "../apis";
 
 export default function AppContent() {
+  const [students, setStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSetStudents = (_formData) => {
-    axios.post("https://646e37d69c677e23218b4bde.mockapi.io/students", _formData).then((response) => {
-      console.log("DEBUG AFTER POST --> ", response);
+    callApis.post("/students", _formData).then((response) => {
     });
   };
-  // const handleUpdateStudent = (_param) => {
-  //   if (_param?.[0]) return "Không có dữ liệu";
-  //   axios.put("https://646e37d69c677e23218b4bde.mockapi.io/students/" + _param.id).then((res) => {
-  //     console.log("PUT --> ", res.data);
-  //   });
-  // };
+
+  useEffect(() => {
+    if (!students?.[0] && !isLoading) {
+      callGetAllStudents();
+    }
+  }, [students]);
+
+  const callGetAllStudents = () => {
+    setIsLoading(true);
+    callApis
+      .get("/students")
+      .then((res) => {
+        setStudents(res?.data);
+        return res?.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   return (
     <>
       <Routes>
@@ -36,7 +53,10 @@ export default function AppContent() {
 
         {/* -------------------Begin QLSV----------------- */}
         <Route path="/homePrice" element={<HomePrice />}></Route>
-        <Route path="/table" element={<DataTable />}></Route>
+        <Route
+          path="/table"
+          element={<DataTable callGetAllStudents={callGetAllStudents} students={students} isLoading={isLoading} />}
+        ></Route>
         <Route path="/form" element={<FormDemo handleSetStudents={handleSetStudents} />} />
         {/* -------------------End QLSV----------------- */}
 

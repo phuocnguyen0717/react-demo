@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { callApis } from "../../apis";
 
 export default function HeaderQLSV() {
+  /**
+   * bug bất động bộ
+   * Student undefined
+   */
+  
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -17,7 +23,10 @@ export default function HeaderQLSV() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/table">
+              <Link
+                className="nav-link"
+                to="/table"
+              >
                 Bảng Dữ Liệu
               </Link>
             </li>

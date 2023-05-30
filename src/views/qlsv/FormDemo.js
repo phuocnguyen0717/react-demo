@@ -18,12 +18,10 @@ export default function FormDemo({ handleSetStudents, ...props }) {
    * @param {*} e : input element nhận vào
    */
   const handleOnChangeForm = (e) => {
-    console.log("ChangeForm ------->", e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmitForm = () => {
-    console.log("FUNC LOG -> ", formData);
     if (!formData["address"] || !formData["name"]) return alert("Không Có Dữ Liệu");
     handleSetStudents(formData);
   };
