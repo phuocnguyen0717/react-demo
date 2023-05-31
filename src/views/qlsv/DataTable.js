@@ -5,35 +5,12 @@ import HeaderQLSV from "./HeaderQLSV";
 import TableRow from "./TableRow";
 import { callApis } from "../../apis";
 // handleUpdateStudent,
-export default function DataTable({
-  callGetAllStudents,
-  students,
-  isLoading,
-  ...props
-}) {
-  const handleDelRowClick = (std) => {
-    console.log(std.name);
-    if (!std.id) return alert("không có id");
-    callApis
-      .delete("students/" + std.id)
-      .then((res) => {
-        console.log("CALL AFTER DELETE --> ", res.data.name);
-        callGetAllStudents();
-      });
-  };
+export default function DataTable({ callGetAllStudents, handleDelRowClick, students, isLoading, ...props }) {
   const handleUpdateRowClick = (newStudent) => {
     return (
       <div className="Task__editing">
-        <input
-          type="text"
-          className="Student__editor"
-          defaultValue={newStudent["name"]}
-        />
-        <input
-          type="text"
-          className="Student__editor"
-          defaultValue={newStudent["address"]}
-        />
+        <input type="text" className="Student__editor" defaultValue={newStudent["name"]} />
+        <input type="text" className="Student__editor" defaultValue={newStudent["address"]} />
         <div className="Task__editing-action">
           <i className="fas fa-check"></i>
           <i className="fas fa-ban"></i>
@@ -60,10 +37,7 @@ export default function DataTable({
     <>
       <Header />
       <HeaderQLSV />
-      <section
-        className="search-banner text-white py-3 form-arka-plan"
-        id="search-banner"
-      >
+      <section className="search-banner text-white py-3 form-arka-plan" id="search-banner">
         <div className="container py-5 my-5">
           <div
             style={{

@@ -7,15 +7,22 @@ import Icons from "../views/elements/Icons";
 import HomePrice from "../views/qlsv/HomePrice";
 import DataTable from "../views/qlsv/DataTable";
 import FormDemo from "../views/qlsv/FormDemo";
-import AppTodos from "./AppTodos";
-import AppFoods from "./AppFoods";
+import AppFoods from "../views/foods/AppFoods";
 import { callApis } from "../apis";
+import AppTodos from "../views/todos/AppTodos";
 
 export default function AppContent() {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const handleSetStudents = (_formData) => {
     callApis.post("/students", _formData).then((response) => {
+      callGetAllStudents();
+    });
+  };
+  const handleDelRowClick = (std) => {
+    if (!std.id) return alert("không có id");
+    callApis.delete("students/" + std.id).then((res) => {
+      callGetAllStudents();
     });
   };
 
