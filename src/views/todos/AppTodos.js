@@ -13,51 +13,43 @@ export default function AppTodos() {
   const [isClickUpdateButton, setIsClickUpdateButton] = useState(false);
   const ref = useRef();
 
+  const handleSetTodos = async (_data) => {
+    await callApisTodos.post("/todos", _data);
+     getAllTodos();
+    alert("Thêm Thành Công ");
+  };
+  const getAllTodos = async () => {
+    setIsLoading(true);
+    const response = await callApisTodos.get("/todos");
+    const data = response?.data?.[0] ? response.data : [];
+    setTodos(data);
+    setIsApiCalled(true);
+    setIsLoading(false);
+  };
+  const handleDeleteTodo = async  (_todo) => {
+    await callApisTodos.delete("/todos/" + _todo.id);
+       getAllTodos();
+      alert("Xóa Thành Công ");
+  };
+  const handleUpdateTodo = async (_todo) => {
+    await callApisTodos.put("/todos/" + _todo.id, _todo);
+     getAllTodos();
+    alert("Cập nhật thành công");
+  };
   const handleSubmitUpdateTodo = (_todo) => {
-    console.log("--->abc ", _todo["id"]);
-    // callApisTodos.put("/todos/" + _todo.id, _todo).then((res) => {
-    //   console.log("RES -------------> ", res);
-    //   getAllTodos();
-    // });
+    if (!formData?.["name"]) return alert("K có dữ liệu cập nhật");
+    handleUpdateTodo(formData);
   };
   const handleClickUpdateButton = (todo) => {
     setFormData({ name: todo.name, id: todo.id });
     ref.current.focus();
   };
-  const handleDeleteTodo = (_todo) => {
-    callApisTodos.delete("/todos/" + _todo.id).then((res) => {
-      getAllTodos();
-      alert("Xóa Thành Công ");
-    });
-  };
-
-  const handleSetTodos = (_data) => {
-    callApisTodos.post("/todos", _data).then((res) => {
-      getAllTodos();
-    });
-  };
-
   useEffect(() => {
     if (!todos?.[0] && !isApiCalled) {
       getAllTodos();
     }
   }, [todos]);
-  const getAllTodos = () => {
-    setIsLoading(true);
-    callApisTodos
-      .get("/todos")
-      .then((res) => {
-        setTodos(res?.data);
-        setIsApiCalled(true);
-        return res?.data;
-      })
-      .catch((err) => {})
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
   const handleOnChangeInput = (e) => {
-    console.log("onChang ------>", e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleOnSubmitData = () => {
